@@ -18,20 +18,22 @@ const Navbar = () => {
   return (
     <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
       <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-14">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <div className="w-10 h-10 bg-gradient-to-r from-primary-600 to-accent-500 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-xl">MR</span>
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-800">Mukesh Rathore</h1>
+              <h1 className="text-lg md:text-xl font-bold text-gray-800 truncate max-w-[60vw] md:max-w-none">
+                Mukesh Rathore
+              </h1>
               <p className="text-xs text-gray-500">Project Manager</p>
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
+          {/* Desktop Navigation - shows on lg screens and above */}
+          <div className="hidden lg:flex items-center space-x-1">
             {navItems.map((item) => (
               <Link
                 key={item.name}
@@ -47,32 +49,40 @@ const Navbar = () => {
             </button>
           </div>
 
-          {/* Mobile menu button */}
-          <button
-            className="md:hidden p-2"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
-          </button>
-        </div>
-
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="md:hidden py-4 border-t">
-            {navItems.map((item) => (
-              <Link
-                key={item.name}
-                to={item.path}
-                className="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-all duration-300"
-                onClick={() => setIsOpen(false)}
-              >
-                <span>{item.icon}</span>
-                <span className="font-medium">{item.name}</span>
-              </Link>
-            ))}
-            <button className="w-full mt-4 btn-primary">
+          {/* Tablet & Mobile: Download CV + Sandwich Menu */}
+          <div className="flex lg:hidden items-center">
+            {/* Download CV button - shows on tablet and mobile */}
+            <button className="btn-primary mr-4">
               Download CV
             </button>
+            
+            {/* Sandwich Menu Button */}
+            <button
+              className="p-2 text-gray-700 hover:text-primary-600"
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label={isOpen ? "Close menu" : "Open menu"}
+            >
+              {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile & Tablet Navigation Menu - FIXED THIS PART */}
+        {isOpen && (
+          <div className="lg:hidden py-4 border-t animate-fadeIn">
+            <div className="space-y-1">
+              {navItems.map((item) => (
+                <Link
+                  key={item.name}
+                  to={item.path}
+                  className="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-all duration-300"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <span className="text-lg">{item.icon}</span>
+                  <span className="font-medium">{item.name}</span>
+                </Link>
+              ))}
+            </div>
           </div>
         )}
       </div>
